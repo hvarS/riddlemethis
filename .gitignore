@@ -162,4 +162,5 @@ cython_debug/
 *.env
 Word2Vec/*
 data_srcs/*
-mFlag/data/*
+mFLAG/data/*
+mFLAG/utils/*.perl

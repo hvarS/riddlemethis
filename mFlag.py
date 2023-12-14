@@ -1,10 +1,12 @@
 import argparse
 from tqdm import tqdm
 import pandas as pd
-from mFlag.model import MultiFigurativeGeneration
-from mFlag.tokenization_mflag import MFlagTokenizerFast
+from mFLAG.model import MultiFigurativeGeneration
+from mFLAG.tokenization_mflag import MFlagTokenizerFast
+import torch
 
 
+device = f"cuda:0" if torch.cuda.is_available() else "cpu"
 
 parser = argparse.ArgumentParser(description='Argument Parser for Training TRex Model')
 parser.add_argument('--gen_file', type=str, required=True, help='Location of the Generated file: "Model with Use the GenRiddles Column"')
@@ -49,7 +51,7 @@ sentences = list(df["GenRiddle"])
 
 tokenizer = MFlagTokenizerFast.from_pretrained('laihuiyuan/mFLAG')
 model = MultiFigurativeGeneration.from_pretrained('laihuiyuan/mFLAG')
-
+model = model.to(device)
 
 sentences = [sentence.replace('\n','') for sentence in sentences]
 
@@ -73,6 +75,8 @@ for sentence in tqdm(sentences):
   inp_ids = tokenizer.encode(sentence, return_tensors="pt")
   # the target figurative form (<sarcasm>)
   fig_ids = tokenizer.encode(spcl_token, add_special_tokens=False, return_tensors="pt")
+  inp_ids = inp_ids.to(device)
+  fig_ids = fig_ids.to(device)
   outs = model.generate(input_ids=inp_ids[:, 1:], fig_ids=fig_ids, forced_bos_token_id=fig_ids.item(), num_beams=5, max_length=256)
   text = tokenizer.decode(outs[0, 2:].tolist(), skip_special_tokens=True, clean_up_tokenization_spaces=False)
   gens.append(text)
