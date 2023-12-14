@@ -16,7 +16,7 @@ parser.add_argument('--hyperbole', action='store_true', help='Option for <hyperb
 parser.add_argument('--idiom', action='store_true', help='Option for <idiom>')
 parser.add_argument('--sarcasm', action='store_true', help='Option for <sarcasm>')
 parser.add_argument('--metaphor', action='store_true', help='Option for <metaphor>')
-
+parser.add_argument('--simile', action='store_true', help='Option for <simile>')
 # Setting the default option to <literal>
 parser.set_defaults(literal=True)
 
@@ -53,7 +53,7 @@ tokenizer = MFlagTokenizerFast.from_pretrained('laihuiyuan/mFLAG')
 model = MultiFigurativeGeneration.from_pretrained('laihuiyuan/mFLAG')
 model = model.to(device)
 
-sentences = [sentence.replace('\n','') for sentence in sentences]
+sentences = [sentence.replace('\n',' ') for sentence in sentences]
 
 gens = []
 
