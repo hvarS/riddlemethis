@@ -78,7 +78,7 @@ for sentence in tqdm(sentences):
   inp_ids = inp_ids.to(device)
   fig_ids = fig_ids.to(device)
   outs = model.generate(input_ids=inp_ids[:, 1:], fig_ids=fig_ids, forced_bos_token_id=fig_ids.item(), num_beams=5, max_length=256)
-  text = tokenizer.decode(outs[0, 2:].tolist(), skip_special_tokens=True, clean_up_tokenization_spaces=False)
+  text = tokenizer.decode(outs[0, 1:].tolist(), skip_special_tokens=True, clean_up_tokenization_spaces=False)
   gens.append(text)
 
 
