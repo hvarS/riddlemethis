@@ -1,11 +1,9 @@
 import argparse
 from tqdm import tqdm
 import pandas as pd
-from mFLAG.model import MultiFigurativeGeneration
-from mFLAG.tokenization_mflag import MFlagTokenizerFast
+from mFlag.model import MultiFigurativeGeneration
+from mFlag.tokenization_mflag import MFlagTokenizerFast
 
-tokenizer = MFlagTokenizerFast.from_pretrained('laihuiyuan/mFLAG')
-model = MultiFigurativeGeneration.from_pretrained('laihuiyuan/mFLAG')
 
 
 parser = argparse.ArgumentParser(description='Argument Parser for Training TRex Model')
@@ -49,6 +47,10 @@ sentences = list(df["GenRiddle"])
 # "I tick and I tock, I measure the day,\nWith hands that move, I show the way.\nFrom the wall or the wrist, I keep you in sync,\nWhat am I, this time-telling link?"
 # ]
 
+tokenizer = MFlagTokenizerFast.from_pretrained('laihuiyuan/mFLAG')
+model = MultiFigurativeGeneration.from_pretrained('laihuiyuan/mFLAG')
+
+
 sentences = [sentence.replace('\n','') for sentence in sentences]
 
 gens = []
@@ -76,5 +78,5 @@ for sentence in tqdm(sentences):
   gens.append(text)
 
 
-df['mFlag'] = gens
+df['GenRiddle'] = gens
 pd.DataFrame.from_dict(df).to_csv(f"{args.out_file}",index=False)

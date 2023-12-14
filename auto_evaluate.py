@@ -22,10 +22,8 @@ for i in range(len(gens)):
         gens[i] = " "
 
 i = 0
-# %%
 refs = [[ref] for ref in refs]
 
-# %%
 from nltk.translate.bleu_score import corpus_bleu
 from nltk.translate.meteor_score import meteor_score
 from rouge_score import rouge_scorer
@@ -39,12 +37,10 @@ bleu_2 = bleu.compute(predictions=gens, references=refs,max_order = 2)
 bleu_3 = bleu.compute(predictions=gens, references=refs,max_order = 3)
 bleu_4 = bleu.compute(predictions=gens, references=refs,max_order = 4)
 
-# %%
 # # Compute METEOR score
 meteor = evaluate.load('meteor')
 meteor_score = meteor.compute(predictions=gens, references=refs)
 
-# %%
 # # Compute Rouge scores
 
 refs_simplified = [ref[0] for ref in refs]
@@ -70,13 +66,10 @@ print("Rouge-1 Score:", average_rouge1_score)
 print("Rouge-2 Score:", average_rouge2_score)
 print("Rouge-L Score:", average_rougeL_score)
 
-# %%
 bertscore = evaluate.load("bertscore")
 
-# %%
 bertscores = bertscore.compute(predictions=gens, references=refs, lang="en")
 
-# %%
 # # Print or store the evaluation metrics.
 print("BERTScores:")
 print(bertscores)

@@ -3,10 +3,8 @@ import requests
 import heapq
 from tqdm import tqdm
 
-# %%
-words = [f.split(',')[0].strip() for f in open('generations/rmt_test.csv','r')][1:]
 
-# %%
+words = [f.split(',')[0].strip() for f in open('generations/rmt_test.csv','r')][1:]
 
 def get_related_concepts(word, limit=10):
     base_url = 'http://api.conceptnet.io/'
