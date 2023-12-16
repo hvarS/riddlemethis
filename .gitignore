@@ -164,3 +164,4 @@ Word2Vec/*
 data_srcs/*
 mFLAG/data/*
 mFLAG/utils/*.perl
+config.py
