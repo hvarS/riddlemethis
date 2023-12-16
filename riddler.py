@@ -23,7 +23,7 @@ parser.set_defaults(literal=True)
 args = parser.parse_args()
 
 
-device = f"cuda:0" if torch.cuda.is_available() else "cpu"
+device = f"cpu" if torch.cuda.is_available() else "cpu"
 
 def get_related_concepts(word, limit=10):
     base_url = 'http://api.conceptnet.io/'
@@ -99,31 +99,35 @@ model = MultiFigurativeGeneration.from_pretrained('laihuiyuan/mFLAG')
 model = model.to(device)
 
 
-spcl_token = "<literal>"
-if args.hyperbole:
-    spcl_token = "<hyperbole>"
-elif args.idiom:
-    spcl_token = "<idiom>"
-elif args.sarcasm:
-    spcl_token = "<sarcasm>"
-elif args.metaphor:
-    spcl_token = "<metaphor>"
-elif args.simile:
-    spcl_token = "<simile>"
+# spcl_token = "<literal>"
+# if args.hyperbole:
+#     spcl_token = "<hyperbole>"
+# elif args.idiom:
+#     spcl_token = "<idiom>"
+# elif args.sarcasm:
+#     spcl_token = "<sarcasm>"
+# elif args.metaphor:
+#     spcl_token = "<metaphor>"
+# elif args.simile:
+#     spcl_token = "<simile>"
 
-
-inp_ids = tokenizer.encode(generation, return_tensors="pt")
-# the target figurative form (<sarcasm>)
-fig_ids = tokenizer.encode(spcl_token, add_special_tokens=False, return_tensors="pt")
-inp_ids = inp_ids.to(device)
-fig_ids = fig_ids.to(device)
-outs = model.generate(input_ids=inp_ids[:, :], fig_ids=fig_ids, forced_bos_token_id=fig_ids.item(), num_beams=5, max_length=256)
-final_riddle = tokenizer.decode(outs[0, 1:].tolist(), skip_special_tokens=True, clean_up_tokenization_spaces=False)
+final_riddles = []
+embs = ["<hyperbole>","<idiom>","<sarcasm>","<metaphor>","<simile>"]
+for spcl_token in embs:
+      inp_ids = tokenizer.encode(generation, return_tensors="pt")
+      # the target figurative form (<sarcasm>)
+      fig_ids = tokenizer.encode(spcl_token, add_special_tokens=False, return_tensors="pt")
+      inp_ids = inp_ids.to(device)
+      fig_ids = fig_ids.to(device)
+      outs = model.generate(input_ids=inp_ids[:, :], fig_ids=fig_ids, forced_bos_token_id=fig_ids.item(), num_beams=10, max_length=512)
+      final_riddle = tokenizer.decode(outs[0, 1:].tolist(), skip_special_tokens=True, clean_up_tokenization_spaces=False)
+      final_riddles.append(final_riddle)
 
 print("Concepts Extracted: ")
 for i,c in enumerate(cp):
     print(str(i)+'.'+str(c))
 print(10*"<<"+"Base Riddle:"+10*">>")
 print(generation)
-print(10*"<<"+"Final Riddle:"+10*">>")
-print(final_riddle)
+for emb, final_riddle in zip(embs, final_riddles):
+      print(10*"<<"+f"Final Riddle: (w {emb})"+10*">>")
+      print(final_riddle)
