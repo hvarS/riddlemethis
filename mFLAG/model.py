@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+
+
 """
 Most code for this implementation is borrowed from transformers
 """
@@ -24,6 +26,8 @@ from transformers.modeling_outputs import (
 from transformers import BartModel, BartForConditionalGeneration
 
 logger = logging.get_logger(__name__)
+
+# START: COPIED FROM https://github.com/laihuiyuan/mFLAG
 
 
 class FigurativeAttention(nn.Module):
@@ -530,3 +534,5 @@ class MultiFigurativeGeneration(BartForConditionalGeneration):
             encoder_hidden_states=outputs.encoder_hidden_states,
             encoder_attentions=outputs.encoder_attentions,
         )
+
+# END: COPIED FROM https://github.com/laihuiyuan/mFLAG

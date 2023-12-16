@@ -6,6 +6,8 @@
  ```
  python riddler.py --word <Word/Phrase>
  ```
+  - Before running the above, it is important to set the OPENAI_API_KEY environment variable on your system
+  
 2. **baselines**:
     - `flanT5.py`: Executes the flanT5 baseline on the dataset. Usage: 
       ```

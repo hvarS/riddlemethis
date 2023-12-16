@@ -10,6 +10,7 @@ from transformers import BartTokenizerFast
 
 logger = logging.get_logger(__name__)
 
+# START: COPIED FROM https://github.com/laihuiyuan/mFLAG
 
 VOCAB_FILES_NAMES = {"vocab_file": "vocab.json", "merges_file": "merges.txt", "tokenizer_file": "tokenizer.json"}
 
@@ -42,3 +43,5 @@ class MFlagTokenizerFast(BartTokenizerFast):
     pretrained_vocab_files_map = PRETRAINED_VOCAB_FILES_MAP
     max_model_input_sizes = PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES
     slow_tokenizer_class = BartTokenizer
+
+# END: COPIED FROM https://github.com/laihuiyuan/mFLAG

@@ -9,7 +9,6 @@ import heapq
 from mFLAG.model import MultiFigurativeGeneration
 from mFLAG.tokenization_mflag import MFlagTokenizerFast
 import torch
-from config import OPENAI_API_KEY
 
 parser = argparse.ArgumentParser(description='Argument Parser for Generating Using the Riddler Model')
 parser.add_argument('--word', type=str, required=True, help='Enter a commonplace word or ')
